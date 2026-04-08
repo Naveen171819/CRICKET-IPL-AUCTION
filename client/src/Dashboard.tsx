@@ -372,6 +372,7 @@ export default function Dashboard() {
                      <span>W:{t.players.filter((x:any)=>x.role==='WK').length}</span>
                      <span>B:{t.players.filter((x:any)=>x.role==='BAT').length}</span>
                      <span>O:{t.players.filter((x:any)=>x.role==='BOWL').length}</span>
+                     <span style={{ color: t.players.filter((x:any)=>p=>p.isForeign).length >= 8 ? 'var(--danger)' : 'white' }}>F:{t.players.filter((x:any)=>x.isForeign).length}/8</span>
                   </div>
                 </div>
               ))}
@@ -422,6 +423,7 @@ export default function Dashboard() {
                      <div style={{ textAlign: 'center' }}><div style={{fontSize:'10px',color:'var(--text-muted)'}}>BAT</div><div style={{fontWeight:'bold', color: selectedTeam.players.filter((x:any)=>x.role==='BAT').length >= 6 ? 'var(--success)' : 'white'}}>{selectedTeam.players.filter((x:any)=>x.role==='BAT').length}</div></div>
                      <div style={{ textAlign: 'center' }}><div style={{fontSize:'10px',color:'var(--text-muted)'}}>BOWL</div><div style={{fontWeight:'bold', color: selectedTeam.players.filter((x:any)=>x.role==='BOWL').length >= 6 ? 'var(--success)' : 'white'}}>{selectedTeam.players.filter((x:any)=>x.role==='BOWL').length}</div></div>
                      <div style={{ textAlign: 'center' }}><div style={{fontSize:'10px',color:'var(--text-muted)'}}>AR</div><div style={{fontWeight:'bold'}}>{selectedTeam.players.filter((x:any)=>x.role==='AR').length}</div></div>
+                     <div style={{ textAlign: 'center' }}><div style={{fontSize:'10px',color:'var(--text-muted)'}}>FOREIGN</div><div style={{fontWeight:'bold', color: selectedTeam.players.filter((x:any)=>x.isForeign).length >= 8 ? 'var(--danger)' : 'white'}}>{selectedTeam.players.filter((x:any)=>x.isForeign).length}/8</div></div>
                  </div>
              </div>
              

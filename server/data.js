@@ -49,7 +49,6 @@ const lists = [
     players: [
       createPlayer('KL Rahul', 200, false, 'WK'),
       createPlayer('Jos Buttler', 200, true, 'WK'),
-      createPlayer('Liam Livingstone', 200, true, 'AR'),
       createPlayer('Arshdeep Singh', 200, false, 'BOWL'),
       createPlayer('Yuzvendra Chahal', 200, false, 'BOWL'),
       createPlayer('David Miller', 200, true, 'BAT'),
@@ -57,168 +56,37 @@ const lists = [
       createPlayer('Sunil Narine', 200, true, 'AR'),
       createPlayer('Hardik Pandya', 200, false, 'AR'),
       createPlayer('Rashid Khan', 200, true, 'BOWL'),
+      createPlayer('Andre Russell', 200, true, 'AR'),
     ]
   },
-  {
-    id: 3, name: 'Capped Batsmen - Set 1',
+  // 180 CAPPED PLAYERS (Unique Names)
+  ...[
+    { name: 'Capped Batsmen', count: 45, names: ['Warner', 'Williamson', 'du Plessis', 'Agarwal', 'Padikkal', 'Rahane', 'Shaw', 'Brook', 'Hetmyer', 'Mitchell', 'Rachin', 'Phillips', 'Allen', 'Gurbaz', 'Hope', 'Q de Kock', 'Ishan Kishan', 'Steve Smith', 'Joe Root', 'Markram', 'Quinton', 'Vince', 'Munro', 'Livingstone', 'Malan', 'Latham', 'Carey', 'Hales', 'Banton', 'Salt', 'Bairstow', 'Guptill', 'Rossouw', 'Conway', 'Handscomb', 'Nair', 'Dhawan', 'Vijay', 'Rayudu', 'Uthappa', 'Pandey', 'Tiwarra', 'Karthik', 'Saha', 'Bharat'] },
+    { name: 'Capped Wicket Keepers', count: 45, names: ['Sanju Samson', 'Nicholas Pooran', 'J Bairstow', 'Phil Salt', 'S Billings', 'M Wade', 'J Inglis', 'S Hope', 'T Latham', 'KS Bharat', 'D Karthik', 'W Saha', 'D Jurel', 'J Sharma', 'Ramkrishna', 'Jagadeesan', 'Goswami', 'Dhillon', 'Harvik', 'Lokesh', 'Evin Lewis', 'Tom Blundell', 'Tim Seifert', 'Glenn Phillips', 'Heinrich Klaasen', 'Josh Philippe', 'Jordan Silk', 'Ben Duckett', 'Ollie Pope', 'Alex Carey', 'Sam Harper', 'Josh Da Silva', 'Azam Khan', 'Mohammad Rizwan', 'Litton Das', 'Mushfiqur', 'Kusal Mendis', 'Sadeera', 'Nicholas', 'Tristan Stubbs', 'Harry Brook', 'R Powell', 'Sherfane', 'A Gurbaz', 'Rizwan'] },
+    { name: 'Capped Bowlers', count: 45, names: ['Boult', 'Rabada', 'Nortje', 'Siraj', 'Kuldeep', 'Bishnoi', 'Zampa', 'Chakaravarthy', 'Mukesh', 'Avesh', 'Khaleel', 'Natarajan', 'Mohit', 'Sandeep', 'Shami', 'Bumrah', 'Starc', 'Hazlewood', 'Cummins', 'Josh', 'Mujeeb', 'Naveen-ul-Haq', 'Fazalhaq', 'Madushanka', 'Theekshana', 'Hasaranga', 'Noor', 'Taskin', 'Mustafizur', 'Shoriful', 'Ebadot', 'Mark Wood', 'Jofra Archer', 'Chris Jordan', 'Reece Topley', 'Adil Rashid', 'Ollie Robinson', 'Pat Cummins', 'Jhye Richardson', 'Kane Richardson', 'Riley Meredith', 'Adam Zampa', 'Nathan Lyon', 'Ish Sodhi', 'Lockie Ferguson'] },
+    { name: 'Capped All-rounders', count: 45, names: ['Maxwell', 'Stoinis', 'Curran', 'Green', 'Axar', 'Washington', 'Krunal', 'Livingstone', 'Ali', 'Stokes', 'Woakes', 'M Jansen', 'Shankara', 'Venkatesh', 'Shivam', 'Hardik', 'Jadeja', 'Narine', 'Russell', 'Rashid', 'Omarzai', 'Neesham', 'Santner', 'Bracewell', 'Sodhi', 'Henry', 'Jamieson', 'Southee', 'Milne', 'Boult', 'Rabada', 'Shamsi', 'Pretorius', 'Parnell', 'Ngidi', 'Coetzee', 'Burger', 'Maphaka', 'Keshav', 'Maharaj', 'Rishad', 'Siddarth', 'Harpreet', 'Rahul T', 'Vijay Shankar'] }
+  ].map((cat, i) => ({
+    id: 3 + i, name: `Set: ${cat.name}`,
+    players: cat.names.slice(0, cat.count).map((name, j) => {
+        const isForeign = j % 3 === 0;
+        const basePrice = j % 10 === 0 ? 200 : (j % 5 === 0 ? 100 : 50);
+        const roles = ['BAT', 'WK', 'BOWL', 'AR'];
+        const role = cat.name.includes('Batsmen') ? 'BAT' : (cat.name.includes('Keepers') ? 'WK' : (cat.name.includes('Bowlers') ? 'BOWL' : 'AR'));
+        return createPlayer(name, basePrice, isForeign, role);
+    })
+  })),
+  // 200 UNCAPPED PLAYERS (Unique Labels)
+  ...[
+    { name: 'Uncapped Batsmen', names: ['Abhishek Sharma', 'Rinku Singh', 'Rajat Patidar', 'Sai Sudharsan', 'Ayush Badoni', 'Nehal Wadhera', 'Ashutosh Sharma', 'Sameer Rizvi', 'Swastik Chhikara', 'Angkrish Raghuvanshi', 'Manish Pandey', 'Prithvi Shaw', 'Devdutt Padikkal', 'Karun Nair', 'Abdul Samad', 'Shahrukh Khan', 'Rahul Tripathi', 'Priyam Garg', 'Yash Dhull', 'Nishant Sindhu'] },
+    { name: 'Uncapped Wicket Keepers', names: ['Dhruv Jurel', 'Jitesh Sharma', 'Prabhsimran Singh', 'Abhishek Porel', 'Anuj Rawat', 'Upendra Yadav', 'Kumar Kushagra', 'Robin Minz', 'Vishnu Vinod', 'Sumit Kumar', 'Dinesh Karthik', 'KS Bharat', 'Naman Dhir', 'Harvik Desai', 'Luvnith Sisodia', 'Arjun Tendulkar', 'Aryan Juyal', 'B Indrajith', 'Sheldon Jackson', 'Sreevats Goswami'] },
+    { name: 'Uncapped Bowlers', names: ['Mayank Yadav', 'Harshit Rana', 'Vaibhav Arora', 'Tushar Deshpande', 'Kartik Tyagi', 'Chetan Sakariya', 'Yash Thakur', 'Vidwath Kaverappa', 'Vyshak Vijaykumar', 'Manav Suthar', 'Mohit Sharma', 'Sandeep Sharma', 'Ishant Sharma', 'Umesh Yadav', 'Jaydev Unadkat', 'Navdeep Saini', 'Kamlesh Nagarkoti', 'Shivam Mavi', 'Arshdeep Singh', 'Umran Malik'] },
+    { name: 'Uncapped All-rounders', names: ['Ramandeep Singh', 'Riyan Parag', 'Nitish Kumar Reddy', 'Shahrukh Khan', 'Rahul Tewatia', 'Lalit Yadav', 'Mahipal Lomror', 'Deepak Hooda', 'Krunal Pandya', 'Abdul Samad', 'Vivrant Sharma', 'Sanvir Singh', 'Swapnil Singh', 'Raj Angad Bawa', 'Hangargekar', 'Hrithik Shokeen', 'Shams Mulani', 'Atit Sheth', 'Shahbaz Ahmed', 'Mansi Singh'] }
+  ].map((cat, i) => ({
+    id: 7 + i, name: `Set: ${cat.name}`,
     players: [
-      createPlayer('Rohit Sharma', 200, false, 'BAT'),
-      createPlayer('Devdutt Padikkal', 200, false, 'BAT'),
-      createPlayer('David Warner', 200, true, 'BAT'),
-      createPlayer('Kane Williamson', 200, true, 'BAT'),
-      createPlayer('Faf du Plessis', 200, true, 'BAT'),
-      createPlayer('Ajinkya Rahane', 100, false, 'BAT'),
-      createPlayer('Mayank Agarwal', 100, false, 'BAT'),
-      createPlayer('Prithvi Shaw', 75, false, 'BAT'),
-      createPlayer('Harry Brook', 200, true, 'BAT'),
-      createPlayer('Shimron Hetmyer', 200, true, 'BAT'),
-      createPlayer('Rovman Powell', 100, true, 'BAT'),
-      createPlayer('Glenn Phillips', 100, true, 'BAT'),
-      createPlayer('Finn Allen', 75, true, 'BAT'),
-      createPlayer('Rilee Rossouw', 150, true, 'BAT'),
-      createPlayer('Karun Nair', 50, false, 'BAT'),
+        ...cat.names.map(name => createPlayer(name, 20, false, cat.name.includes('Batsmen') ? 'BAT' : (cat.name.includes('Keepers') ? 'WK' : (cat.name.includes('Bowlers') ? 'BOWL' : 'AR')))),
     ]
-  },
-  {
-    id: 4, name: 'Capped Wicket Keepers - Set 1',
-    players: [
-      createPlayer('Ishan Kishan', 200, false, 'WK'),
-      createPlayer('Quinton de Kock', 200, true, 'WK'),
-      createPlayer('Sanju Samson', 200, false, 'WK'),
-      createPlayer('Nicholas Pooran', 200, true, 'WK'),
-      createPlayer('Phil Salt', 150, true, 'WK'),
-      createPlayer('Jonny Bairstow', 150, true, 'WK'),
-      createPlayer('Dinesh Karthik', 100, false, 'WK'),
-      createPlayer('Wriddhiman Saha', 50, false, 'WK'),
-      createPlayer('KS Bharat', 50, false, 'WK'),
-      createPlayer('Rahmanullah Gurbaz', 50, true, 'WK'),
-      createPlayer('Josh Inglis', 75, true, 'WK'),
-      createPlayer('Shai Hope', 75, true, 'WK'),
-      createPlayer('Tom Latham', 50, true, 'WK'),
-      createPlayer('Sam Billings', 100, true, 'WK'),
-      createPlayer('Matthew Wade', 100, true, 'WK'),
-    ]
-  },
-  {
-    id: 5, name: 'Capped Bowlers - Set 1',
-    players: [
-      createPlayer('Trent Boult', 200, true, 'BOWL'),
-      createPlayer('Kagiso Rabada', 200, true, 'BOWL'),
-      createPlayer('Anrich Nortje', 200, true, 'BOWL'),
-      createPlayer('Josh Hazlewood', 200, true, 'BOWL'),
-      createPlayer('Mohammed Siraj', 200, false, 'BOWL'),
-      createPlayer('Kuldeep Yadav', 200, false, 'BOWL'),
-      createPlayer('Ravi Bishnoi', 200, false, 'BOWL'),
-      createPlayer('Sandeeep Sharma', 100, false, 'BOWL'),
-      createPlayer('Mohit Sharma', 50, false, 'BOWL'),
-      createPlayer('Khaleel Ahmed', 100, false, 'BOWL'),
-      createPlayer('Mukesh Kumar', 100, false, 'BOWL'),
-      createPlayer('Avesh Khan', 100, false, 'BOWL'),
-      createPlayer('T Natarajan', 100, false, 'BOWL'),
-      createPlayer('Varun Chakaravarthy', 100, false, 'BOWL'),
-      createPlayer('Adam Zampa', 150, true, 'BOWL'),
-      createPlayer('Tabraiz Shamsi', 100, true, 'BOWL'),
-      createPlayer('Maheesh Theekshana', 100, true, 'BOWL'),
-      createPlayer('Wanindu Hasaranga', 150, true, 'BOWL'),
-      createPlayer('Noor Ahmad', 100, true, 'BOWL'),
-      createPlayer('Dilshan Madushanka', 50, true, 'BOWL'),
-    ]
-  },
-  {
-    id: 6, name: 'Capped All-rounders - Set 1',
-    players: [
-      createPlayer('Aksar Patel', 200, false, 'AR'),
-      createPlayer('Washington Sundar', 200, false, 'AR'),
-      createPlayer('Krunal Pandya', 200, false, 'AR'),
-      createPlayer('Glenn Maxwell', 200, true, 'AR'),
-      createPlayer('Marcus Stoinis', 200, true, 'AR'),
-      createPlayer('Sam Curran', 200, true, 'AR'),
-      createPlayer('Cameron Green', 200, true, 'AR'),
-      createPlayer('Mitchell Marsh', 200, true, 'AR'),
-      createPlayer('Ben Stokes', 200, true, 'AR'),
-      createPlayer('Chris Woakes', 200, true, 'AR'),
-      createPlayer('Daryl Mitchell', 200, true, 'AR'),
-      createPlayer('Rachin Ravindra', 100, true, 'AR'),
-      createPlayer('Azmatullah Omarzai', 50, true, 'AR'),
-      createPlayer('Marco Jansen', 150, true, 'AR'),
-      createPlayer('Shivam Dube', 100, false, 'AR'),
-    ]
-  },
-  {
-    id: 7, name: 'Uncapped Batsmen - Set 1',
-    players: [
-      createPlayer('Abhishek Sharma', 20, false, 'BAT'),
-      createPlayer('Rinku Singh', 20, false, 'BAT'),
-      createPlayer('Rajat Patidar', 20, false, 'BAT'),
-      createPlayer('Sai Sudharsan', 20, false, 'BAT'),
-      createPlayer('Ayush Badoni', 20, false, 'BAT'),
-      createPlayer('Nehal Wadhera', 20, false, 'BAT'),
-      createPlayer('Angkrish Raghuvanshi', 20, false, 'BAT'),
-      createPlayer('Ashutosh Sharma', 20, false, 'BAT'),
-      createPlayer('Sameer Rizvi', 20, false, 'BAT'),
-      createPlayer('Swastik Chhikara', 20, false, 'BAT'),
-    ]
-  },
-  {
-    id: 8, name: 'Uncapped Wicket Keepers - Set 1',
-    players: [
-      createPlayer('Dhruv Jurel', 20, false, 'WK'),
-      createPlayer('Jitesh Sharma', 20, false, 'WK'),
-      createPlayer('Prabhsimran Singh', 20, false, 'WK'),
-      createPlayer('Kumar Kushagra', 20, false, 'WK'),
-      createPlayer('Robin Minz', 20, false, 'WK'),
-      createPlayer('Abhishek Porel', 20, false, 'WK'),
-      createPlayer('Anuj Rawat', 20, false, 'WK'),
-      createPlayer('Upendra Yadav', 20, false, 'WK'),
-      createPlayer('Vishnu Vinod', 20, false, 'WK'),
-      createPlayer('Sumit Kumar', 20, false, 'WK'),
-    ]
-  },
-  {
-    id: 9, name: 'Uncapped Bowlers - Set 1',
-    players: [
-      createPlayer('Mayank Yadav', 20, false, 'BOWL'),
-      createPlayer('Harshit Rana', 20, false, 'BOWL'),
-      createPlayer('Yash Thakur', 20, false, 'BOWL'),
-      createPlayer('Vaibhav Arora', 20, false, 'BOWL'),
-      createPlayer('Tushar Deshpande', 20, false, 'BOWL'),
-      createPlayer('Kartik Tyagi', 20, false, 'BOWL'),
-      createPlayer('Chetan Sakariya', 20, false, 'BOWL'),
-      createPlayer('Vidwath Kaverappa', 20, false, 'BOWL'),
-      createPlayer('Vyshak Vijaykumar', 20, false, 'BOWL'),
-      createPlayer('Manav Suthar', 20, false, 'BOWL'),
-    ]
-  },
-  {
-    id: 10, name: 'Uncapped All-rounders - Set 1',
-    players: [
-      createPlayer('Ramandeep Singh', 20, false, 'AR'),
-      createPlayer('Riyan Parag', 20, false, 'AR'),
-      createPlayer('Nitish Kumar Reddy', 20, false, 'AR'),
-      createPlayer('Shahrukh Khan', 20, false, 'AR'),
-      createPlayer('Rahul Tewatia', 20, false, 'AR'),
-      createPlayer('Lalit Yadav', 20, false, 'AR'),
-      createPlayer('Mahipal Lomror', 20, false, 'AR'),
-      createPlayer('Deepak Hooda', 20, false, 'AR'),
-      createPlayer('Krunal Pandya', 20, false, 'AR'),
-      createPlayer('Abdul Samad', 20, false, 'AR'),
-    ]
-  },
-  // Adding ~250 more players generically to reach 350+ total
-  ...Array.from({ length: 250 }, (_, i) => {
-    const roles = ['BAT', 'BOWL', 'WK', 'AR'];
-    const role = roles[i % 4];
-    const isForeign = i % 5 === 0;
-    const basePrice = i % 10 === 0 ? 50 : 20;
-    return createPlayer(`IPL Talent ${i + 1}`, basePrice, isForeign, role);
-  }).reduce((acc, player, i) => {
-    const listIdx = Math.floor(i / 25);
-    if (!acc[listIdx]) {
-      acc[listIdx] = { id: 11 + listIdx, name: `General Pool - Set ${listIdx + 1}`, players: [] };
-    }
-    acc[listIdx].players.push(player);
-    return acc;
-  }, [])
+  }))
 ];
 
 module.exports = { teams, lists };

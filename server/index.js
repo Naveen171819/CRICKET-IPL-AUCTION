@@ -61,12 +61,16 @@ const generateRoomId = () => {
 
 const createRoom = (hostUsername, mode = 'GROUP') => {
     const roomId = generateRoomId();
+    const shuffledLists = baseLists.map(list => ({
+        ...list,
+        players: [...list.players].sort(() => Math.random() - 0.5)
+    }));
     rooms[roomId] = {
         id: roomId,
         host: hostUsername,
         mode: mode,
         teams: JSON.parse(JSON.stringify(baseTeams)),
-        lists: JSON.parse(JSON.stringify(baseLists)),
+        lists: shuffledLists,
         state: {
             status: 'WAITING',
             currentListIndex: 0,
@@ -120,8 +124,9 @@ const getActivePlayer = (room) => {
 const getRoleCounts = (team) => {
     return team.players.reduce((acc, p) => {
         acc[p.role] = (acc[p.role] || 0) + 1;
+        if (p.isForeign) acc.foreign = (acc.foreign || 0) + 1;
         return acc;
-    }, { WK: 0, BAT: 0, BOWL: 0, AR: 0 });
+    }, { WK: 0, BAT: 0, BOWL: 0, AR: 0, foreign: 0 });
 };
 
 const assignInterest = (room) => {
@@ -131,26 +136,38 @@ const assignInterest = (room) => {
     const player = getActivePlayer(room);
     if (!player) return;
 
+    // Categorize player
+    const isMarquee = room.state.activeListId <= 2;
+    const isUncapped = player.basePrice <= 20;
+
     // AI logic: Teams that NEED this role are always interested
     const interestedIds = new Set();
     eligibleTeams.forEach(t => {
         const counts = getRoleCounts(t);
+        
+        // Rule: Max 8 foreign players
+        if (player.isForeign && counts.foreign >= 8) return;
+
         let needed = false;
         if (player.role === 'WK' && counts.WK < 2) needed = true;
         if (player.role === 'BAT' && counts.BAT < 6) needed = true;
         if (player.role === 'BOWL' && counts.BOWL < 6) needed = true;
         
-        // Random interest or needed role
-        if (needed || Math.random() > 0.6) {
+        // Random interest based on category
+        let interestProb = 0.5; // Default for Capped
+        if (isMarquee) interestProb = 0.9;
+        if (isUncapped) interestProb = 0.3;
+
+        if (needed || Math.random() < interestProb) {
             interestedIds.add(t.id);
         }
     });
 
-    // Ensure at least 2 teams are interested if possible
-    if (interestedIds.size < 2 && eligibleTeams.length >= 2) {
+    // Ensure at least 1-2 teams are interested if possible for Marquee
+    if (isMarquee && interestedIds.size < 2 && eligibleTeams.length >= 2) {
         eligibleTeams.sort(() => 0.5 - Math.random()).slice(0, 2).forEach(t => interestedIds.add(t.id));
     }
-    
+
     room.currentInterestedTeams = Array.from(interestedIds);
     room.maxCeilings = {};
     
@@ -160,20 +177,35 @@ const assignInterest = (room) => {
          
          // Budget logic: More aggressive if role is needed
          let multiplier = 1.0;
-         if (player.role === 'WK' && counts.WK < 2) multiplier = 1.5;
-         if (player.role === 'BAT' && counts.BAT < 6) multiplier = 1.3;
-         if (player.role === 'BOWL' && counts.BOWL < 6) multiplier = 1.3;
-         if (player.basePrice >= 200) multiplier += 0.5; // Marquee premium
-
-         // SAFE BUDGET LOGIC:
-         // Teams must save at least 20L for every remaining slot needed to reach 21 players.
+         if (player.role === 'WK' && counts.WK < 2) multiplier = 1.3;
+         if (player.role === 'BAT' && counts.BAT < 6) multiplier = 1.1;
+         if (player.role === 'BOWL' && counts.BOWL < 6) multiplier = 1.1;
+         
+         // SAFE BUDGET LOGIC (Min 50L safety per slot)
          const minSlotsNeeded = Math.max(0, 21 - team.players.length);
-         const futureCommitment = minSlotsNeeded * 20;
+         const futureCommitment = minSlotsNeeded * 50; 
          const safePurse = Math.max(0, team.purse - futureCommitment);
 
-         const randomBudget = player.basePrice + Math.floor(Math.random() * 800 * multiplier);
-         // AI ceiling is capped at safePurse or the random budget
-         room.maxCeilings[teamId] = Math.min(randomBudget, safePurse);
+         // TIERED SPENDING CURVE
+         let maxPriceIncrease = 300; // Normal Capped: Max ~3-5 Cr total
+         if (isMarquee) maxPriceIncrease = 1000; // Marquee: Max ~12-15 Cr total
+         
+         // SPECIAL: Uncapped Star logic (10% chance for an Uncapped player to be a Star)
+         const isUncappedStar = isUncapped && (Math.random() < 0.10 || ['Abhishek Sharma', 'Rinku Singh', 'Riyan Parag', 'Mayank Yadav'].includes(player.name));
+         
+         if (isUncapped) {
+            maxPriceIncrease = isUncappedStar ? 600 : 80; // Stars can go up to 6 Cr, others ~1 Cr
+         }
+
+         // BUDGET LOCK: Teams must try to keep 25 Cr (2500L) for depth
+         // Only Marquee players or Uncapped Stars can break this lock early
+         let budgetLockPurse = team.purse - 2500;
+         if (isMarquee || isUncappedStar) budgetLockPurse = team.purse - 500; 
+
+         const randomBudget = player.basePrice + Math.floor(Math.random() * maxPriceIncrease * multiplier);
+         
+         // AI ceiling is capped at safePurse, the 25Cr Lock, and the random tier ceiling
+         room.maxCeilings[teamId] = Math.min(randomBudget, safePurse, Math.max(player.basePrice, budgetLockPurse));
     });
 };
 
