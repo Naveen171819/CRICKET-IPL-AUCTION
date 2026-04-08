@@ -188,7 +188,7 @@ const assignInterest = (room) => {
 
          // TIERED SPENDING CURVE
          let maxPriceIncrease = 300; // Normal Capped: Max ~3-5 Cr total
-         if (isMarquee) maxPriceIncrease = 1000; // Marquee: Max ~12-15 Cr total
+         if (isMarquee) maxPriceIncrease = 1500; // Marquee: Max ~15-20 Cr total
          
          // SPECIAL: Uncapped Star logic (10% chance for an Uncapped player to be a Star)
          const isUncappedStar = isUncapped && (Math.random() < 0.10 || ['Abhishek Sharma', 'Rinku Singh', 'Riyan Parag', 'Mayank Yadav'].includes(player.name));
