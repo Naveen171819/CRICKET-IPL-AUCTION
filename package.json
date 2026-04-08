@@ -2,7 +2,7 @@
   "name": "cricket-auction",
   "version": "1.0.0",
   "scripts": {
-    "postinstall": "cd client && npm install && cd ../server && npm install",
+    "postinstall": "cd client && npm install --legacy-peer-deps && cd ../server && npm install",
     "build": "cd client && npm run build",
     "start": "cd server && node index.js",
     "dev:server": "cd server && npx nodemon index.js",
