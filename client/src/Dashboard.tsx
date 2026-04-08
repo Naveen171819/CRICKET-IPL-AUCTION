@@ -95,6 +95,7 @@ export default function Dashboard() {
                           <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', cursor: hasHistory ? 'pointer' : 'default', background: expandedRow === p.id ? 'rgba(255,255,255,0.05)' : 'transparent' }} onClick={() => hasHistory && toggleRow(p.id)}>
                              <td style={{ padding: '12px', fontWeight: 'bold' }}>
                                {p.name} {p.isForeign ? '✈️' : ''} 
+                               <span style={{ marginLeft: '8px', fontSize: '11px', padding: '2px 6px', borderRadius: '4px', background: 'rgba(255,255,255,0.1)', color: 'var(--accent)' }}>{p.role}</span>
                                {hasHistory && (
                                    <span style={{ fontSize: '10px', marginLeft: '8px', opacity: 0.7 }}>
                                        {expandedRow === p.id ? '🔽' : '▶️'}
@@ -250,6 +251,9 @@ export default function Dashboard() {
                   <h1 style={{ fontSize: '2rem', marginBottom: '8px', textAlign: 'center' }}>
                     {activePlayer.name} {activePlayer.isForeign ? '✈️' : ''}
                   </h1>
+                  <div style={{ background: 'var(--accent)', color: 'black', padding: '4px 12px', borderRadius: '20px', fontSize: '14px', fontWeight: 'bold', marginBottom: '16px' }}>
+                     {activePlayer.role === 'WK' ? '🧤 WICKET KEEPER' : activePlayer.role === 'BAT' ? '🏏 BATSMAN' : activePlayer.role === 'BOWL' ? '⚾ BOWLER' : '🌟 ALL-ROUNDER'}
+                  </div>
 
                   <div style={{ textAlign: 'center', marginTop: '8px' }}>
                     <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>TIME REMAINING</div>
@@ -354,6 +358,11 @@ export default function Dashboard() {
                   <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
                     Squad: {t.players.length}/25
                   </div>
+                  <div style={{ fontSize: '9px', opacity: 0.6, display: 'flex', gap: '4px' }}>
+                     <span>W:{t.players.filter((x:any)=>x.role==='WK').length}</span>
+                     <span>B:{t.players.filter((x:any)=>x.role==='BAT').length}</span>
+                     <span>O:{t.players.filter((x:any)=>x.role==='BOWL').length}</span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -397,6 +406,12 @@ export default function Dashboard() {
                  <div>
                      <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>SQUAD SIZE</div>
                      <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{selectedTeam.players.length} / 25</div>
+                 </div>
+                 <div style={{ flex: 1, display: 'flex', justifyContent: 'space-around', alignItems: 'center', borderLeft: '1px solid rgba(255,255,255,0.1)', paddingLeft: '16px' }}>
+                     <div style={{ textAlign: 'center' }}><div style={{fontSize:'10px',color:'var(--text-muted)'}}>WK</div><div style={{fontWeight:'bold', color: selectedTeam.players.filter((x:any)=>x.role==='WK').length >= 2 ? 'var(--success)' : 'white'}}>{selectedTeam.players.filter((x:any)=>x.role==='WK').length}</div></div>
+                     <div style={{ textAlign: 'center' }}><div style={{fontSize:'10px',color:'var(--text-muted)'}}>BAT</div><div style={{fontWeight:'bold', color: selectedTeam.players.filter((x:any)=>x.role==='BAT').length >= 6 ? 'var(--success)' : 'white'}}>{selectedTeam.players.filter((x:any)=>x.role==='BAT').length}</div></div>
+                     <div style={{ textAlign: 'center' }}><div style={{fontSize:'10px',color:'var(--text-muted)'}}>BOWL</div><div style={{fontWeight:'bold', color: selectedTeam.players.filter((x:any)=>x.role==='BOWL').length >= 6 ? 'var(--success)' : 'white'}}>{selectedTeam.players.filter((x:any)=>x.role==='BOWL').length}</div></div>
+                     <div style={{ textAlign: 'center' }}><div style={{fontSize:'10px',color:'var(--text-muted)'}}>AR</div><div style={{fontWeight:'bold'}}>{selectedTeam.players.filter((x:any)=>x.role==='AR').length}</div></div>
                  </div>
              </div>
              

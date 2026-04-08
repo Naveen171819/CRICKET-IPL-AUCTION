@@ -13,86 +13,213 @@ const teams = [
 
 let globalPlayerId = 1;
 
-const createPlayer = (name, basePrice, isForeign) => {
+const createPlayer = (name, basePrice, isForeign, role) => {
   const pId = globalPlayerId++;
   return {
     id: pId,
     name,
     basePrice,
     isForeign,
+    role, // BAT, BOWL, WK, AR
     isSold: false,
     soldTo: null,
     soldPrice: null,
-    image: `/players/player${(pId - 1) % 10}.jpeg`
+    image: `/players/player${(pId - 1) % 30}.jpeg`
   };
 };
 
 const lists = [
   {
-    id: 1, name: 'Top Players (Marquee)', 
+    id: 1, name: 'Marquee Players - Set 1', 
     players: [
-      createPlayer('Travis Head', 200, true),
-      createPlayer('Virat Kohli', 200, false),
-      createPlayer('Pat Cummins', 200, true),
+      createPlayer('Rishabh Pant', 200, false, 'WK'),
+      createPlayer('Shreyas Iyer', 200, false, 'BAT'),
+      createPlayer('KL Rahul', 200, false, 'WK'),
+      createPlayer('Mitchell Starc', 200, true, 'BOWL'),
+      createPlayer('Jos Buttler', 200, true, 'WK'),
+      createPlayer('Liam Livingstone', 200, true, 'AR'),
+      createPlayer('Arshdeep Singh', 200, false, 'BOWL'),
+      createPlayer('Mohammed Shami', 200, false, 'BOWL'),
+      createPlayer('Yuzvendra Chahal', 200, false, 'BOWL'),
+      createPlayer('David Miller', 200, true, 'BAT'),
     ]
   },
   {
-    id: 2, name: 'Capped Batsmen',
+    id: 2, name: 'Marquee Players - Set 2', 
     players: [
-      createPlayer('Rohit Sharma', 200, false),
-      createPlayer('David Warner', 200, true),
-      createPlayer('Kane Williamson', 200, true),
+      createPlayer('Travis Head', 200, true, 'BAT'),
+      createPlayer('Heinrich Klaasen', 200, true, 'WK'),
+      createPlayer('Pat Cummins', 200, true, 'BOWL'),
+      createPlayer('Jasprit Bumrah', 200, false, 'BOWL'),
+      createPlayer('Virat Kohli', 200, false, 'BAT'),
+      createPlayer('Sunil Narine', 200, true, 'AR'),
+      createPlayer('Hardik Pandya', 200, false, 'AR'),
+      createPlayer('Rashid Khan', 200, true, 'BOWL'),
+      createPlayer('Andre Russell', 200, true, 'AR'),
+      createPlayer('Ravindra Jadeja', 200, false, 'AR'),
     ]
   },
   {
-    id: 3, name: 'Capped Wicket Keepers',
+    id: 3, name: 'Capped Batsmen - Set 1',
     players: [
-      createPlayer('KL Rahul', 200, false),
-      createPlayer('Quinton de Kock', 200, true),
+      createPlayer('Rohit Sharma', 200, false, 'BAT'),
+      createPlayer('Devdutt Padikkal', 200, false, 'BAT'),
+      createPlayer('David Warner', 200, true, 'BAT'),
+      createPlayer('Kane Williamson', 200, true, 'BAT'),
+      createPlayer('Faf du Plessis', 200, true, 'BAT'),
+      createPlayer('Ajinkya Rahane', 100, false, 'BAT'),
+      createPlayer('Mayank Agarwal', 100, false, 'BAT'),
+      createPlayer('Prithvi Shaw', 75, false, 'BAT'),
+      createPlayer('Harry Brook', 200, true, 'BAT'),
+      createPlayer('Shimron Hetmyer', 200, true, 'BAT'),
+      createPlayer('Rovman Powell', 100, true, 'BAT'),
+      createPlayer('Glenn Phillips', 100, true, 'BAT'),
+      createPlayer('Finn Allen', 75, true, 'BAT'),
+      createPlayer('Rilee Rossouw', 150, true, 'BAT'),
+      createPlayer('Karun Nair', 50, false, 'BAT'),
     ]
   },
   {
-    id: 4, name: 'Capped Bowlers',
+    id: 4, name: 'Capped Wicket Keepers - Set 1',
     players: [
-      createPlayer('Jasprit Bumrah', 200, false),
-      createPlayer('Mitchell Starc', 200, true),
-      createPlayer('Rashid Khan', 200, true),
+      createPlayer('Ishan Kishan', 200, false, 'WK'),
+      createPlayer('Quinton de Kock', 200, true, 'WK'),
+      createPlayer('Sanju Samson', 200, false, 'WK'),
+      createPlayer('Nicholas Pooran', 200, true, 'WK'),
+      createPlayer('Phil Salt', 150, true, 'WK'),
+      createPlayer('Jonny Bairstow', 150, true, 'WK'),
+      createPlayer('Dinesh Karthik', 100, false, 'WK'),
+      createPlayer('Wriddhiman Saha', 50, false, 'WK'),
+      createPlayer('KS Bharat', 50, false, 'WK'),
+      createPlayer('Rahmanullah Gurbaz', 50, true, 'WK'),
+      createPlayer('Josh Inglis', 75, true, 'WK'),
+      createPlayer('Shai Hope', 75, true, 'WK'),
+      createPlayer('Tom Latham', 50, true, 'WK'),
+      createPlayer('Sam Billings', 100, true, 'WK'),
+      createPlayer('Matthew Wade', 100, true, 'WK'),
     ]
   },
   {
-    id: 5, name: 'Capped All-rounders',
+    id: 5, name: 'Capped Bowlers - Set 1',
     players: [
-      createPlayer('Ravindra Jadeja', 200, false),
-      createPlayer('Glenn Maxwell', 200, true),
+      createPlayer('Trent Boult', 200, true, 'BOWL'),
+      createPlayer('Kagiso Rabada', 200, true, 'BOWL'),
+      createPlayer('Anrich Nortje', 200, true, 'BOWL'),
+      createPlayer('Josh Hazlewood', 200, true, 'BOWL'),
+      createPlayer('Mohammed Siraj', 200, false, 'BOWL'),
+      createPlayer('Kuldeep Yadav', 200, false, 'BOWL'),
+      createPlayer('Ravi Bishnoi', 200, false, 'BOWL'),
+      createPlayer('Sandeeep Sharma', 100, false, 'BOWL'),
+      createPlayer('Mohit Sharma', 50, false, 'BOWL'),
+      createPlayer('Khaleel Ahmed', 100, false, 'BOWL'),
+      createPlayer('Mukesh Kumar', 100, false, 'BOWL'),
+      createPlayer('Avesh Khan', 100, false, 'BOWL'),
+      createPlayer('T Natarajan', 100, false, 'BOWL'),
+      createPlayer('Varun Chakaravarthy', 100, false, 'BOWL'),
+      createPlayer('Adam Zampa', 150, true, 'BOWL'),
+      createPlayer('Tabraiz Shamsi', 100, true, 'BOWL'),
+      createPlayer('Maheesh Theekshana', 100, true, 'BOWL'),
+      createPlayer('Wanindu Hasaranga', 150, true, 'BOWL'),
+      createPlayer('Noor Ahmad', 100, true, 'BOWL'),
+      createPlayer('Dilshan Madushanka', 50, true, 'BOWL'),
     ]
   },
   {
-    id: 6, name: 'Uncapped Batsmen',
+    id: 6, name: 'Capped All-rounders - Set 1',
     players: [
-      createPlayer('Rajat Patidar', 20, false),
-      createPlayer('Angkrish Raghuvanshi', 20, false),
+      createPlayer('Aksar Patel', 200, false, 'AR'),
+      createPlayer('Washington Sundar', 200, false, 'AR'),
+      createPlayer('Krunal Pandya', 200, false, 'AR'),
+      createPlayer('Glenn Maxwell', 200, true, 'AR'),
+      createPlayer('Marcus Stoinis', 200, true, 'AR'),
+      createPlayer('Sam Curran', 200, true, 'AR'),
+      createPlayer('Cameron Green', 200, true, 'AR'),
+      createPlayer('Mitchell Marsh', 200, true, 'AR'),
+      createPlayer('Ben Stokes', 200, true, 'AR'),
+      createPlayer('Chris Woakes', 200, true, 'AR'),
+      createPlayer('Daryl Mitchell', 200, true, 'AR'),
+      createPlayer('Rachin Ravindra', 100, true, 'AR'),
+      createPlayer('Azmatullah Omarzai', 50, true, 'AR'),
+      createPlayer('Marco Jansen', 150, true, 'AR'),
+      createPlayer('Shivam Dube', 100, false, 'AR'),
     ]
   },
   {
-    id: 7, name: 'Uncapped Wicket Keepers',
+    id: 7, name: 'Uncapped Batsmen - Set 1',
     players: [
-      createPlayer('Dhruv Jurel', 20, false),
-      createPlayer('Jitesh Sharma', 20, false),
+      createPlayer('Abhishek Sharma', 20, false, 'BAT'),
+      createPlayer('Rinku Singh', 20, false, 'BAT'),
+      createPlayer('Rajat Patidar', 20, false, 'BAT'),
+      createPlayer('Sai Sudharsan', 20, false, 'BAT'),
+      createPlayer('Ayush Badoni', 20, false, 'BAT'),
+      createPlayer('Nehal Wadhera', 20, false, 'BAT'),
+      createPlayer('Angkrish Raghuvanshi', 20, false, 'BAT'),
+      createPlayer('Ashutosh Sharma', 20, false, 'BAT'),
+      createPlayer('Sameer Rizvi', 20, false, 'BAT'),
+      createPlayer('Swastik Chhikara', 20, false, 'BAT'),
     ]
   },
   {
-    id: 8, name: 'Uncapped Bowlers',
+    id: 8, name: 'Uncapped Wicket Keepers - Set 1',
     players: [
-      createPlayer('Mayank Yadav', 20, false),
-      createPlayer('Yash Thakur', 20, false),
+      createPlayer('Dhruv Jurel', 20, false, 'WK'),
+      createPlayer('Jitesh Sharma', 20, false, 'WK'),
+      createPlayer('Prabhsimran Singh', 20, false, 'WK'),
+      createPlayer('Kumar Kushagra', 20, false, 'WK'),
+      createPlayer('Robin Minz', 20, false, 'WK'),
+      createPlayer('Abhishek Porel', 20, false, 'WK'),
+      createPlayer('Anuj Rawat', 20, false, 'WK'),
+      createPlayer('Upendra Yadav', 20, false, 'WK'),
+      createPlayer('Vishnu Vinod', 20, false, 'WK'),
+      createPlayer('Sumit Kumar', 20, false, 'WK'),
     ]
   },
   {
-    id: 9, name: 'Uncapped All-rounds',
+    id: 9, name: 'Uncapped Bowlers - Set 1',
     players: [
-      createPlayer('Ramandeep Singh', 20, false),
+      createPlayer('Mayank Yadav', 20, false, 'BOWL'),
+      createPlayer('Harshit Rana', 20, false, 'BOWL'),
+      createPlayer('Yash Thakur', 20, false, 'BOWL'),
+      createPlayer('Vaibhav Arora', 20, false, 'BOWL'),
+      createPlayer('Tushar Deshpande', 20, false, 'BOWL'),
+      createPlayer('Kartik Tyagi', 20, false, 'BOWL'),
+      createPlayer('Chetan Sakariya', 20, false, 'BOWL'),
+      createPlayer('Vidwath Kaverappa', 20, false, 'BOWL'),
+      createPlayer('Vyshak Vijaykumar', 20, false, 'BOWL'),
+      createPlayer('Manav Suthar', 20, false, 'BOWL'),
     ]
-  }
+  },
+  {
+    id: 10, name: 'Uncapped All-rounders - Set 1',
+    players: [
+      createPlayer('Ramandeep Singh', 20, false, 'AR'),
+      createPlayer('Riyan Parag', 20, false, 'AR'),
+      createPlayer('Nitish Kumar Reddy', 20, false, 'AR'),
+      createPlayer('Shahrukh Khan', 20, false, 'AR'),
+      createPlayer('Rahul Tewatia', 20, false, 'AR'),
+      createPlayer('Lalit Yadav', 20, false, 'AR'),
+      createPlayer('Mahipal Lomror', 20, false, 'AR'),
+      createPlayer('Deepak Hooda', 20, false, 'AR'),
+      createPlayer('Krunal Pandya', 20, false, 'AR'),
+      createPlayer('Abdul Samad', 20, false, 'AR'),
+    ]
+  },
+  // Adding ~250 more players generically to reach 350+ total
+  ...Array.from({ length: 250 }, (_, i) => {
+    const roles = ['BAT', 'BOWL', 'WK', 'AR'];
+    const role = roles[i % 4];
+    const isForeign = i % 5 === 0;
+    const basePrice = i % 10 === 0 ? 50 : 20;
+    return createPlayer(`IPL Talent ${i + 1}`, basePrice, isForeign, role);
+  }).reduce((acc, player, i) => {
+    const listIdx = Math.floor(i / 25);
+    if (!acc[listIdx]) {
+      acc[listIdx] = { id: 11 + listIdx, name: `General Pool - Set ${listIdx + 1}`, players: [] };
+    }
+    acc[listIdx].players.push(player);
+    return acc;
+  }, [])
 ];
 
 module.exports = { teams, lists };
+

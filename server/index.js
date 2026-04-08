@@ -117,20 +117,55 @@ const getActivePlayer = (room) => {
     return null;
 }
 
+const getRoleCounts = (team) => {
+    return team.players.reduce((acc, p) => {
+        acc[p.role] = (acc[p.role] || 0) + 1;
+        return acc;
+    }, { WK: 0, BAT: 0, BOWL: 0, AR: 0 });
+};
+
 const assignInterest = (room) => {
     const eligibleTeams = room.teams.filter(t => t.players.length < 25);
     if (eligibleTeams.length === 0) return;
-    const shuffled = eligibleTeams.sort(() => 0.5 - Math.random());
-    const count = Math.min(Math.floor(Math.random() * 4) + 2, eligibleTeams.length); 
-    room.currentInterestedTeams = shuffled.slice(0, count).map(t => t.id);
     
-    room.maxCeilings = {};
     const player = getActivePlayer(room);
     if (!player) return;
+
+    // AI logic: Teams that NEED this role are always interested
+    const interestedIds = new Set();
+    eligibleTeams.forEach(t => {
+        const counts = getRoleCounts(t);
+        let needed = false;
+        if (player.role === 'WK' && counts.WK < 2) needed = true;
+        if (player.role === 'BAT' && counts.BAT < 6) needed = true;
+        if (player.role === 'BOWL' && counts.BOWL < 6) needed = true;
+        
+        // Random interest or needed role
+        if (needed || Math.random() > 0.6) {
+            interestedIds.add(t.id);
+        }
+    });
+
+    // Ensure at least 2 teams are interested if possible
+    if (interestedIds.size < 2 && eligibleTeams.length >= 2) {
+        eligibleTeams.sort(() => 0.5 - Math.random()).slice(0, 2).forEach(t => interestedIds.add(t.id));
+    }
+
+    room.currentInterestedTeams = Array.from(interestedIds);
+    room.maxCeilings = {};
     
     room.currentInterestedTeams.forEach(teamId => {
          const team = room.teams.find(t => t.id === teamId);
-         const randomBudget = player.basePrice + Math.floor(Math.random() * 1000);
+         const counts = getRoleCounts(team);
+         
+         // Budget logic: More aggressive if role is needed
+         let multiplier = 1.0;
+         if (player.role === 'WK' && counts.WK < 2) multiplier = 1.5;
+         if (player.role === 'BAT' && counts.BAT < 6) multiplier = 1.3;
+         if (player.role === 'BOWL' && counts.BOWL < 6) multiplier = 1.3;
+         if (player.basePrice >= 200) multiplier += 0.5; // Marquee premium
+
+         const randomBudget = player.basePrice + Math.floor(Math.random() * 800 * multiplier);
          room.maxCeilings[teamId] = Math.min(randomBudget, team.purse);
     });
 };
@@ -157,9 +192,13 @@ const getIncrement = (current) => {
 
 const processAI = (room) => {
     if (room.state.status !== 'IN_PROGRESS') return;
-    if (room.state.timeLeft > 7) return; 
+    if (room.state.timeLeft > 8) return; 
     
-    if (Math.random() > 0.5) {
+    const player = getActivePlayer(room);
+    if (!player) return;
+
+    // AI probability check
+    if (Math.random() > 0.4) {
         const aiTeams = room.teams.filter(t => 
             !room.connectedHumans.has(t.id) && 
             room.currentInterestedTeams.includes(t.id) && 
@@ -170,9 +209,6 @@ const processAI = (room) => {
         const randomAITeam = aiTeams[Math.floor(Math.random() * aiTeams.length)];
         if (room.state.highestBidderId === randomAITeam.id) return;
         
-        const player = getActivePlayer(room);
-        if (!player) return;
-
         const increment = getIncrement(room.state.currentBid);
         const newBidAmount = room.state.highestBidderId === null ? player.basePrice : room.state.currentBid + increment;
 
