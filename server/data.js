@@ -1,14 +1,14 @@
 const teams = [
-  { id: 'csk', name: 'Chennai Super Kings', shortName: 'CSK', color: '#ffcb05', logo: 'https://ui-avatars.com/api/?name=CSK&background=ffcb05&color=000&size=150', purse: 2000, players: [] },
-  { id: 'rcb', name: 'Royal Challengers Bengaluru', shortName: 'RCB', color: '#D32F2F', logo: 'https://ui-avatars.com/api/?name=RCB&background=D32F2F&color=fff&size=150', purse: 2000, players: [] },
-  { id: 'mi', name: 'Mumbai Indians', shortName: 'MI', color: '#007AFF', logo: 'https://ui-avatars.com/api/?name=MI&background=007AFF&color=fff&size=150', purse: 2000, players: [] },
-  { id: 'kkr', name: 'Kolkata Knight Riders', shortName: 'KKR', color: '#8B5CF6', logo: 'https://ui-avatars.com/api/?name=KKR&background=8B5CF6&color=fff&size=150', purse: 2000, players: [] },
-  { id: 'srh', name: 'Sunrisers Hyderabad', shortName: 'SRH', color: '#FF822A', logo: 'https://ui-avatars.com/api/?name=SRH&background=FF822A&color=fff&size=150', purse: 2000, players: [] },
-  { id: 'rr', name: 'Rajasthan Royals', shortName: 'RR', color: '#EA1A85', logo: 'https://ui-avatars.com/api/?name=RR&background=EA1A85&color=fff&size=150', purse: 2000, players: [] },
-  { id: 'dc', name: 'Delhi Capitals', shortName: 'DC', color: '#1E90FF', logo: 'https://ui-avatars.com/api/?name=DC&background=1E90FF&color=fff&size=150', purse: 2000, players: [] },
-  { id: 'pbks', name: 'Punjab Kings', shortName: 'PBKS', color: '#DD1F2D', logo: 'https://ui-avatars.com/api/?name=PBKS&background=DD1F2D&color=fff&size=150', purse: 2000, players: [] },
-  { id: 'gt', name: 'Gujarat Titans', shortName: 'GT', color: '#6BA4FF', logo: 'https://ui-avatars.com/api/?name=GT&background=6BA4FF&color=fff&size=150', purse: 2000, players: [] },
-  { id: 'lsg', name: 'Lucknow Super Giants', shortName: 'LSG', color: '#00C1FF', logo: 'https://ui-avatars.com/api/?name=LSG&background=00C1FF&color=000&size=150', purse: 2000, players: [] },
+  { id: 'csk', name: 'Chennai Super Kings', shortName: 'CSK', color: '#ffcb05', logo: 'https://ui-avatars.com/api/?name=CSK&background=ffcb05&color=000&size=150', purse: 9000, players: [] },
+  { id: 'rcb', name: 'Royal Challengers Bengaluru', shortName: 'RCB', color: '#D32F2F', logo: 'https://ui-avatars.com/api/?name=RCB&background=D32F2F&color=fff&size=150', purse: 9000, players: [] },
+  { id: 'mi', name: 'Mumbai Indians', shortName: 'MI', color: '#007AFF', logo: 'https://ui-avatars.com/api/?name=MI&background=007AFF&color=fff&size=150', purse: 9000, players: [] },
+  { id: 'kkr', name: 'Kolkata Knight Riders', shortName: 'KKR', color: '#8B5CF6', logo: 'https://ui-avatars.com/api/?name=KKR&background=8B5CF6&color=fff&size=150', purse: 9000, players: [] },
+  { id: 'srh', name: 'Sunrisers Hyderabad', shortName: 'SRH', color: '#FF822A', logo: 'https://ui-avatars.com/api/?name=SRH&background=FF822A&color=fff&size=150', purse: 9000, players: [] },
+  { id: 'rr', name: 'Rajasthan Royals', shortName: 'RR', color: '#EA1A85', logo: 'https://ui-avatars.com/api/?name=RR&background=EA1A85&color=fff&size=150', purse: 9000, players: [] },
+  { id: 'dc', name: 'Delhi Capitals', shortName: 'DC', color: '#1E90FF', logo: 'https://ui-avatars.com/api/?name=DC&background=1E90FF&color=fff&size=150', purse: 9000, players: [] },
+  { id: 'pbks', name: 'Punjab Kings', shortName: 'PBKS', color: '#DD1F2D', logo: 'https://ui-avatars.com/api/?name=PBKS&background=DD1F2D&color=fff&size=150', purse: 9000, players: [] },
+  { id: 'gt', name: 'Gujarat Titans', shortName: 'GT', color: '#6BA4FF', logo: 'https://ui-avatars.com/api/?name=GT&background=6BA4FF&color=fff&size=150', purse: 9000, players: [] },
+  { id: 'lsg', name: 'Lucknow Super Giants', shortName: 'LSG', color: '#00C1FF', logo: 'https://ui-avatars.com/api/?name=LSG&background=00C1FF&color=000&size=150', purse: 9000, players: [] },
 ];
 
 let globalPlayerId = 1;
