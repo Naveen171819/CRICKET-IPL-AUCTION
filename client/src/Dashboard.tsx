@@ -372,7 +372,7 @@ export default function Dashboard() {
                      <span>W:{t.players.filter((x:any)=>x.role==='WK').length}</span>
                      <span>B:{t.players.filter((x:any)=>x.role==='BAT').length}</span>
                      <span>O:{t.players.filter((x:any)=>x.role==='BOWL').length}</span>
-                     <span style={{ color: t.players.filter((x:any)=>p=>p.isForeign).length >= 8 ? 'var(--danger)' : 'white' }}>F:{t.players.filter((x:any)=>x.isForeign).length}/8</span>
+                     <span style={{ color: t.players.filter((p: any) => p.isForeign).length >= 8 ? 'var(--danger)' : 'white' }}>F:{t.players.filter((p: any) => p.isForeign).length}/8</span>
                   </div>
                 </div>
               ))}
