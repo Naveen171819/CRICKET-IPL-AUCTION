@@ -150,7 +150,8 @@ const assignInterest = (room) => {
     if (interestedIds.size < 2 && eligibleTeams.length >= 2) {
         eligibleTeams.sort(() => 0.5 - Math.random()).slice(0, 2).forEach(t => interestedIds.add(t.id));
     }
-
+    
+    room.currentInterestedTeams = Array.from(interestedIds);
     room.maxCeilings = {};
     
     room.currentInterestedTeams.forEach(teamId => {
