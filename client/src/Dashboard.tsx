@@ -40,6 +40,16 @@ export default function Dashboard() {
     };
   }, [navigate, roomId, username]);
 
+  // Preload images for current set to avoid 2s delay
+  useEffect(() => {
+    if (state?.activeList?.players) {
+       state.activeList.players.forEach((p: any) => {
+          const img = new Image();
+          img.src = p.image;
+       });
+    }
+  }, [state?.activeList?.id]);
+
   if (!state) return <div className="container">Loading auction data...</div>;
 
   const { teams, auctionState, activeList, activePlayer, mode } = state;

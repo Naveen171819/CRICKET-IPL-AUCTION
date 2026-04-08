@@ -151,7 +151,6 @@ const assignInterest = (room) => {
         eligibleTeams.sort(() => 0.5 - Math.random()).slice(0, 2).forEach(t => interestedIds.add(t.id));
     }
 
-    room.currentInterestedTeams = Array.from(interestedIds);
     room.maxCeilings = {};
     
     room.currentInterestedTeams.forEach(teamId => {
@@ -165,8 +164,15 @@ const assignInterest = (room) => {
          if (player.role === 'BOWL' && counts.BOWL < 6) multiplier = 1.3;
          if (player.basePrice >= 200) multiplier += 0.5; // Marquee premium
 
+         // SAFE BUDGET LOGIC:
+         // Teams must save at least 20L for every remaining slot needed to reach 21 players.
+         const minSlotsNeeded = Math.max(0, 21 - team.players.length);
+         const futureCommitment = minSlotsNeeded * 20;
+         const safePurse = Math.max(0, team.purse - futureCommitment);
+
          const randomBudget = player.basePrice + Math.floor(Math.random() * 800 * multiplier);
-         room.maxCeilings[teamId] = Math.min(randomBudget, team.purse);
+         // AI ceiling is capped at safePurse or the random budget
+         room.maxCeilings[teamId] = Math.min(randomBudget, safePurse);
     });
 };
 
