@@ -23,7 +23,8 @@ export default function Lobby() {
     try {
       localStorage.removeItem('auctionRoomId');
       localStorage.removeItem('auctionRole');
-      const res = await fetch('/api/create-room', {
+      const endpoint = (import.meta.env.VITE_API_URL || '') + '/api/create-room';
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, mode })
@@ -49,7 +50,8 @@ export default function Lobby() {
     if (!roomId) return;
     
     try {
-      const res = await fetch(`/api/room/${roomId.toUpperCase()}`);
+      const endpoint = (import.meta.env.VITE_API_URL || '') + `/api/room/${roomId.toUpperCase()}`;
+      const res = await fetch(endpoint);
       const data = await res.json();
       
       if (data.exists) {

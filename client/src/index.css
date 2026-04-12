@@ -135,3 +135,67 @@ select {
 select:focus {
   border-color: var(--accent);
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .flex {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  main, aside {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+  
+  h1 { font-size: 1.5rem !important; }
+  h2 { font-size: 1.2rem !important; }
+  
+  .glass-panel {
+    padding: 16px;
+    border-radius: 12px;
+  }
+  
+  /* Stack tables on mobile */
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  tr {
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+  }
+  
+  td {
+    border: none;
+    position: relative;
+    padding-left: 50% !important;
+    text-align: right !important;
+  }
+  
+  td:before {
+    position: absolute;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+    color: var(--text-muted);
+  }
+  
+  /* Custom labels for table cells */
+  td:nth-of-type(1):before { content: "Name"; }
+  td:nth-of-type(2):before { content: "Price"; }
+  td:nth-of-type(3):before { content: "Status"; }
+}

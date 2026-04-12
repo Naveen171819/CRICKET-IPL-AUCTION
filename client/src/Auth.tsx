@@ -17,7 +17,7 @@ export default function Auth() {
       return;
     }
 
-    const endpoint = isLogin ? '/api/login' : '/api/signup';
+    const endpoint = (import.meta.env.VITE_API_URL || '') + (isLogin ? '/api/login' : '/api/signup');
     try {
       const res = await fetch(endpoint, {
         method: 'POST',
